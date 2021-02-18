@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="form.css">
+  <script src="https://kit.fontawesome.com/db303a16f8.js" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
+  <script type="text/javascript" src="form.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="form-logout.js" charset="UTF-8"></script>
+  <script src="firebase.js"></script> 
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <!-- <script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyAZ6BNKDQ0bpb48mQF2SSJCWLqbWvyLFCY" type="text/javascript"></script> -->
+  <title>Book your Cab</title>  
+</head>
+<body>
+  <img class="wave3" src="undraw/undraw_Vehicle_sale_a645.svg">
+  <div class="container" id="container" > 
+    <div class="book">
+      <div class="description" id="result">
+        <h1><strong>Book</strong> Your Ride</h1>
+        <button onclick="formApp.logOut();" id="logout_btn">logout</button>
+        <p>Book Rides Online is a web-based reservation management, dispatch, and scheduling software designed primarily for small to medium-sized transportation and limousine companies. It’s a reliable platform built with an integrated merchant account, online reservation module, and periodical reports to enable companies to reserve, schedule, dispatch, and manage services. It equips rental businesses with vital tools to easily manage drivers & vehicles.</p>
+        <div class="quote">
+          <p>ROAD TRIPS ARE THE EQUIVALENT OF HUMAN WINGS. ASK ME TO GO ON ONE, ANYWHERE. WE’LL STOP IN EVERY SMALL TOWN AND LEARN THE HISTORY AND STORIES, FEEL THE GROUND, AND CAPTURE THE SPIRIT. THEN WE’LL TURN IT INTO OUR OWN STORY THAT WILL LIVE INSIDE OUR HISTORY TO CARRY WITH US, ALWAYS. BECAUSE STORIES ARE MORE IMPORTANT THAN THINGS.” – VICTORIA ERICKSON</p>
+        </div>
+        <ul class="list-group">
+          <li>24/7 Customer Service </li>
+          <li>RealTime Cab Monitoring</li>
+          <li>NAVIC/GPS Tracking</li>
+          <li>Instant Booking </li>
+          <!-- <li class="list-group-item d-flex justify-content-between align-items-center">Distance In Mile :</li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Distance is Kilo:</li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">IN TEXT:</li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">IN MINUTES:</li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">FROM:</li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">TO:</li> -->
+        </ul>
+      
+      </div>
+     
+      <div class="form">
+        <div class="alert1">Yoohoo! Booking Successfull. Enjoy Your NextRide.</div>
+        <form class="bookingForm" id="distance_form">
+          <div class="inpbox full">
+            <span class="flaticon-taxi"><i class="fas fa-taxi"></i></span>
+            <select id="cars" class="cars">
+              <option value="Not selected">Select Vehicles</option>
+              <option value="Mini">Mini</option>
+              <option value="Premier">Premier</option>
+              <option value="GO Sedan">GO Sedan</option>
+              <option value="XL Rental">XL Rentals</option>
+              <option value="Bikes">Bikes</option>
+              <option value="Auto-Ricksaw">Auto-Ricksaw</option>
+            </select>
+          </div>
+          <div class="inpbox">
+            <span class="flaticon-globe"><i class="fas fa-globe-americas"></i></span>
+            <input id="from_places" type="text" class="pickup" placeholder="PickUp Location">
+            <input type="hidden" id="origin" name="origin" required>
+          </div>
+          <div class="inpbox">
+            <span class="flaticon-calender"><i class="far fa-calendar-alt"></i></span>
+            <input type="date" class="date" placeholder="date">
+          </div>
+          <div class="inpbox">
+            <span class="flaticon-location"><i class="fas fa-map-marked-alt"></i></span>
+            <input type="text" class="drop" placeholder="Drop Location" id="to_places">
+            <input id="destination" type="hidden" name="destination" required>
+          </div>
+          <div class="inpbox">
+            <span class="flaticon-user"><i class="fas fa-user"></i></span>
+            <input type="text" class="name" placeholder="Full Name">
+          </div>
+          <div class="inpbox">
+            <span class="flaticon-email"><i class="fas fa-envelope"></i></span>
+            <input type="email" class="email" placeholder="Email">
+          </div>
+          <div class="inpbox">
+            <span class="flaticon-phone"><i class="fas fa-mobile"></i></span>
+            <input type="number" class="phone" placeholder="Ph. Number">
+          </div>
+          <!-- -------------------------------------- -->
+         
+          <button class="subtn" type="submit" id="subtn">Submit</button>
+          <p id="info">Click On Refresh to submit bookings</p> 
+          <button class="rst" type="reset" id="rst" onclick="refresh()">Refresh</button>
+        </form>
+        <!-- -------------------------------------- -->
+        <div id="results" class="results">
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+
+  <!-- <script>
+
+$(function() {
+        // add input listeners
+        google.maps.event.addDomListener(window, 'load', function () {
+            var from_places = new google.maps.places.Autocomplete(document.getElementById('from_places'));
+            var to_places = new google.maps.places.Autocomplete(document.getElementById('to_places'));
+
+            google.maps.event.addListener(from_places, 'place_changed', function () {
+                var from_place = from_places.getPlace();
+                var from_address = from_place.formatted_address;
+                $('#origin').val(from_address);
+            });
+
+            google.maps.event.addListener(to_places, 'place_changed', function () {
+                var to_place = to_places.getPlace();
+                var to_address = to_place.formatted_address;
+                $('#destination').val(to_address);
+            }); 
+
+        });
+
+    // calculate distance 
+    function calculateDistance() {
+            var origin = $('#origin').val();
+            var destination = $('#destination').val();
+            var service = new google.maps.DistanceMatrixService();
+            service.getDistanceMatrix(
+                {
+                    origins: [origin],
+                    destinations: [destination],
+                    travelMode: google.maps.TravelMode.DRIVING,
+                    unitSystem: google.maps.UnitSystem.IMPERIAL, // miles and feet.
+                    // unitSystem: google.maps.UnitSystem.metric, // kilometers and meters.
+                    avoidHighways: false,
+                    avoidTolls: false
+                }, callback);
+        }
+
+      // get distance results
+      function callback(response, status) {
+            if (status != google.maps.DistanceMatrixStatus.OK) {
+                $('#result').html(err);
+            } else {
+                var origin = response.originAddresses[0];
+                var destination = response.destinationAddresses[0];
+                if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+                    $('#result').html("Better get on a plane. There are no roads between "  + origin + " and " + destination);
+                } else {
+                    var distance = response.rows[0].elements[0].distance;
+                    var duration = response.rows[0].elements[0].duration;
+                    console.log(response.rows[0].elements[0].distance);
+                    var distance_in_kilo = distance.value / 1000; // the kilom
+                    var distance_in_mile = distance.value / 1609.34; // the mile
+                    var duration_text = duration.text;
+                    var duration_value = duration.value;
+                    $('#in_mile').text(distance_in_mile.toFixed(2));
+                    $('#in_kilo').text(distance_in_kilo.toFixed(2));
+                    $('#duration_text').text(duration_text);
+                    $('#duration_value').text(duration_value);
+                    $('#from').text(origin);
+                    $('#to').text(destination);
+                }
+            }
+        }
+        // print results on submit the form
+        $('#distance_form').submit(function(e){
+            e.preventDefault();
+            calculateDistance();
+        });
+
+    });  
+
+
+
+  </script> -->
+
+</body>
+</html>

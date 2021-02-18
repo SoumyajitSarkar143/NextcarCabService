@@ -1,0 +1,25 @@
+ #heading{
+  text-align: center;
+  align-items: center;
+  background-color: rgb(107, 148, 198);
+  font-size: 40px;
+  margin: 30px auto;
+}
+body{
+  /* background-image: url(img/backimg.jpg); */
+} 
+
+.wave{
+  position: fixed;
+  height: 80%;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+}
+.wave2{
+  position: fixed;
+  height: 40%;
+  left: 1180px;
+  bottom: 0;
+  z-index: -1;
+}
